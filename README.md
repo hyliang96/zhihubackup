@@ -5,7 +5,7 @@
 ## 安装
 
 ```sh
-pip install git+https://github.com/njzjz/zhihubackup
+pip3 install git+https://github.com/L-M-Sherlock/zhihubackup
 ```
 
 ## 使用
