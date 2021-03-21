@@ -1,6 +1,7 @@
 import requests
 import json
 import os
+import re
 from tqdm import tqdm
 
 def act_api(username):
@@ -42,13 +43,25 @@ def loop(username):
             for saved_type in ('title', 'content', 'updated_time'):
                 if saved_type in target:
                     if type(target[saved_type]) is not list:
-                        saved.append(str(target[saved_type]))
+                        raw = str(target[saved_type])
+                        if saved_type == 'content':
+                            # 显示图片
+                            raw = show_img(raw)
+                        saved.append(raw)
                     else:
                         for tt in target[saved_type]:
                             for saved_type2 in ('content', 'url'):
                                 if saved_type2 in tt:
                                     saved.append(tt[saved_type2])
-            with open(os.path.join(username, target_type, "%s.txt" % target['id']), 'w', encoding='utf-8') as f:
+            # 文件名带标题
+            if target_type == 'pin':
+                title = ''
+            elif target_type == 'answer':
+                title = target['question']['title']
+            else:
+                title = target['title']
+            title = '-' + validate_title(title) if title != '' else ''
+            with open(os.path.join(username, target_type, "%s%s.html" % (target['id'], title)), 'w', encoding='utf-8') as f:
                 f.write('\n'.join(saved))
             t.update(1)
         # paging: is_end next previous
@@ -67,3 +80,15 @@ def read_record(record_file='record'):
             return f.read().strip()
     else:
         return None
+
+def validate_title(title):
+    rstr = r"[\/\\\:\*\?\"\<\>\|]"  # '/ \ : * ? " < > |'
+    new_title = re.sub(rstr, "_", title)  # 替换为下划线
+    return new_title
+
+def show_img(raw):
+    pattern = re.compile(r'(?<=</noscript>).*?(?=</figure>)')
+    raw = pattern.sub('', raw)
+    pattern = re.compile(r'</*noscript>')
+    raw = pattern.sub('', raw)
+    return raw
