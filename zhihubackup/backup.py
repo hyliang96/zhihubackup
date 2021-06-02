@@ -60,6 +60,11 @@ def loop(username):
                 title = target['question']['title']
             else:
                 title = target['title']
+            if title != '':
+                if 'api' in target['url']:
+                    target['url'] = target['url'].replace('api', 'www').replace('answers', 'answer')
+                with open(os.path.join("index.csv"), 'a', encoding='utf-8') as f:
+                    f.write(','.join([title, target['url'], target_type, '\n']))
             title = '-' + validate_title(title) if title != '' else ''
             with open(os.path.join(username, target_type, "%s%s.html" % (target['id'], title)), 'w', encoding='utf-8') as f:
                 f.write('\n'.join(saved))
