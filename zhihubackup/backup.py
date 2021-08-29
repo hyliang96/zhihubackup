@@ -17,7 +17,7 @@ def get_json(url):
 
 def makedirs(username, target_type):
     try:
-        os.makedirs(os.path.join(username, target_type))
+        os.makedirs(os.path.join("../" ,username, target_type))
     except OSError:
         pass
 
@@ -37,7 +37,7 @@ def loop(username):
                 continue
             target_type = target['type']
             makedirs(username, target_type)
-            saved = []
+            saved = ["<meta charset=\"UTF-8\">"]
             if 'question' in target and 'title' in target['question']:
                 saved.append(target['question']['title'])
             for saved_type in ('title', 'content', 'updated_time'):
@@ -63,10 +63,10 @@ def loop(username):
             if title != '':
                 if 'api' in target['url']:
                     target['url'] = target['url'].replace('api', 'www').replace('answers', 'answer')
-                with open(os.path.join("index.csv"), 'a', encoding='utf-8') as f:
+                with open(os.path.join("../", username, "index.csv"), 'a', encoding='utf-8') as f:
                     f.write(','.join([title.replace(',', '，'), target['url'], target_type, '\n']))
             title = '-' + validate_title(title) if title != '' else ''
-            with open(os.path.join(username, target_type, "%s%s.html" % (target['id'], title)), 'w', encoding='utf-8') as f:
+            with open(os.path.join("../", username, target_type, "%s%s.html" % (target['id'], title)), 'w', encoding='utf-8') as f:
                 f.write('\n'.join(saved))
             t.update(1)
         # paging: is_end next previous
