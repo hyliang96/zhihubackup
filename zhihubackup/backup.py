@@ -5,7 +5,7 @@ import re
 from tqdm import tqdm
 
 def act_api(username):
-    return "https://www.zhihu.com/api/v3/moments/%s/activities?desktop=true" % username
+    return "https://www.zhihu.com/api/v4/moments/%s/activities?desktop=true" % username
 
 def get_json(url):
     headers = {
