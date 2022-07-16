@@ -1,11 +1,13 @@
 # 退乎前备份知乎回答：zhihubackup
 
-每个知乎答主都有退乎的梦想，但退乎前如果删光回答，则十分可惜。因此，我用Python写了60行的脚本，可以在退乎前备份自己的所有回答和文章，以免事后后悔。
+每个知乎答主都有退乎的梦想，但退乎前如果删光回答，则十分可惜。此Python脚本，可以在退乎前备份自己的所有回答和文章，以免事后后悔。
+
+本repo所fork的repo，调用的是zhihu api v3，在2022年7月知乎官网已经停用之。本repo已升级为调用zhihu api v4。
 
 ## 安装
 
 ```sh
-pip3 install git+https://github.com/L-M-Sherlock/zhihubackup
+pip3 install git+https://github.com/hyliang96/zhihubackup
 ```
 
 ## 使用
